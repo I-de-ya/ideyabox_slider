@@ -1,6 +1,5 @@
 $ = jQuery
 $.fn.extend
-
   ideyaboxSlider: (options) ->
     # Default settings
     settings =
@@ -8,7 +7,6 @@ $.fn.extend
       easing: 'linear'
       itemWidth: ''
 
-    # Merge default settings with options.
     settings = $.extend settings, options    
 
     # variables
@@ -18,7 +16,6 @@ $.fn.extend
     $items = $sliderWrapper.find('li')
     $firstItem = $items.first()
     itemsAmount = $items.length
-
     $prev_button = $("<a href='#' class='ideyabox_prev'>prev</a>").appendTo($sliderWrapper)
     $next_button = $("<a href='#' class='ideyabox_next'>next</a>").appendTo($sliderWrapper)
 
@@ -38,15 +35,27 @@ $.fn.extend
       $(window).resize ->
         setItemsWidth()
         setItemsMargins()
+        showOrHideButtons()
       setItemsWidth()
       setItemsMargins()
-      
+      showOrHideButtons()
 
+    # hide next and prev buttons if all visible
+    showOrHideButtons = ->
+      if allVisible()
+        $prev_button.hide()
+        $next_button.hide()
+      else
+        $prev_button.show()
+        $next_button.show()    
+
+    # set items fix width in percents
     setItemsWidth = ->
       if settings.itemWidth isnt ''
         sliderWrapperWidth = $sliderWrapper.width()
         $items.width(settings.itemWidth/100*sliderWrapperWidth)
 
+    # count items margins
     setItemsMargins = ->
       sliderWrapperWidth = $sliderWrapper.width()
       itemWidth = $firstItem.width()
@@ -57,12 +66,14 @@ $.fn.extend
       if visibleItemsAmount is 1 then itemMargin = sliderWrapperWidth - itemWidth
       $items.css('margin-right', "#{itemMargin}px")
 
+    # check if all items visible
     allVisible = ->
       sliderWrapperWidth = $sliderWrapper.width()
       itemWidth = $firstItem.width()
       visibleItemsAmount = Math.floor(sliderWrapperWidth/itemWidth)
       visibleItemsAmount >= itemsAmount
 
+    # next and prev buttons callbacks
     navigation =
       toLeft : ->
         $firstItem = $sliderWrapper.find('li').first()
