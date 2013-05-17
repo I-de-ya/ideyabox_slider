@@ -80,9 +80,9 @@ $.fn.extend
         itemWidth = $firstItem.width()
         itemMargin = parseInt($firstItem.css('margin-right'))
 
-        $mainList.stop().animate({'left': "-#{itemWidth+itemMargin}px"}, settings.speed, settings.easing, ->
+        $mainList.animate({'left': "-#{itemWidth+itemMargin}px"}, settings.speed, settings.easing, ->
           $firstItem.appendTo($mainList)
-          $mainList.css('left', '0')
+          $mainList.stop(true, true).css('left', '0')
         )
       toRight : ->
         $lastItem = $sliderWrapper.find('li').last()
@@ -90,7 +90,7 @@ $.fn.extend
         itemMargin = parseInt($lastItem.css('margin-right'))
 
         $lastItem.prependTo($mainList)
-        $mainList.stop().css('left', "-#{itemWidth+itemMargin}px")
+        $mainList.stop(true, true).css('left', "-#{itemWidth+itemMargin}px")
         $mainList.animate({'left': "0"}, settings.speed, settings.easing)
 
     init()
