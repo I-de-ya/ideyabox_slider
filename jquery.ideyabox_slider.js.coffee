@@ -6,13 +6,13 @@ $.fn.extend
       speed: 'normal'
       easing: 'linear'
       automargin: true
-      itemWidth: ''
+      oneItem: false
       afterMove: ->
       afterLeft: ->
       afterRight: ->
 
     settings = $.extend settings, options    
-
+    settings.automargin = false if settings.oneItem
     # variables
     $mainList = @.find('ul').wrap("<div class='ideyabox_slider'>")
     $mainList.after("<div class='clear'/>")
@@ -36,15 +36,21 @@ $.fn.extend
       )
 
       # set margins
+      loadAndResize()
       $(window).resize ->
-        setItemsWidth()
-        setItemsMargins() if settings.automargin
-        showOrHideButtons()
-      setItemsWidth()
-      setItemsMargins() if settings.automargin
-      showOrHideButtons()
+        loadAndResize()
+
       $('li').find('img').load ->
         showOrHideButtons()
+
+    loadAndResize = ->
+      setItemsMargins() if settings.automargin
+      showOrHideButtons()
+      oneItem()
+
+    oneItem = ->
+      sliderWrapperWidth = $('.ideyabox_slider').width()
+      $sliderWrapper.find('li').width(sliderWrapperWidth)
 
     # hide next and prev buttons if all visible
     showOrHideButtons = ->
@@ -56,11 +62,6 @@ $.fn.extend
         $prev_button.show()
         $next_button.show()    
 
-    # set items fix width in percents
-    setItemsWidth = ->
-      if settings.itemWidth isnt ''
-        sliderWrapperWidth = $sliderWrapper.width()
-        $items.width(settings.itemWidth/100*sliderWrapperWidth)
 
     # count items margins
     setItemsMargins = ->
