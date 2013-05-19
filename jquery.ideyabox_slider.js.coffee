@@ -14,9 +14,9 @@ $.fn.extend
     settings = $.extend settings, options    
     settings.automargin = false if settings.oneItem
     # variables
-    $mainList = @.find('ul').wrap("<div class='ideyabox_slider'>")
+    $mainList = @.find("ul")
+    $sliderWrapper = $mainList.wrap("<div class='ideyabox_slider' />").parent()
     $mainList.after("<div class='clear'/>")
-    $sliderWrapper = $('.ideyabox_slider')
     $items = $sliderWrapper.find('li')
     $firstItem = $items.first()
     itemsAmount = $items.length
@@ -40,7 +40,7 @@ $.fn.extend
       $(window).resize ->
         loadAndResize()
 
-      $('li').find('img').load ->
+      $sliderWrapper.find('li img').load ->
         showOrHideButtons()
 
     loadAndResize = ->
@@ -49,7 +49,7 @@ $.fn.extend
       oneItem() if settings.oneItem
 
     oneItem = ->
-      sliderWrapperWidth = $('.ideyabox_slider').width()
+      sliderWrapperWidth = $sliderWrapper.width()
       $sliderWrapper.find('li').width(sliderWrapperWidth)
 
     # hide next and prev buttons if all visible
@@ -94,7 +94,7 @@ $.fn.extend
         $firstItem = $sliderWrapper.find('li').first()
 
         unless settings.automargin
-          $('.to_remove').remove()
+
           clone = $firstItem.clone(true)
           clone.appendTo($mainList)
           $firstItem.addClass('to_remove') 
@@ -106,7 +106,7 @@ $.fn.extend
           if settings.automargin
             $firstItem.appendTo($mainList)
           else
-            $('.to_remove').remove()
+            $sliderWrapper.find('.to_remove').remove()
           $mainList.stop(true, true).css('left', '0')
           settings.afterMove()
           settings.afterLeft()
@@ -119,7 +119,7 @@ $.fn.extend
         if settings.automargin
           $lastItem.prependTo($mainList)
         else
-          $('.to_remove').remove()
+          $sliderWrapper.find('.to_remove').remove()
           itemClone = $lastItem.clone(true)
           itemClone.prependTo($mainList)
           $lastItem.addClass('to_remove')
@@ -128,7 +128,7 @@ $.fn.extend
         $mainList.animate({'left': "0"}, settings.speed, settings.easing, 
           ->
             unless settings.automargin
-              $('.to_remove').remove()
+              $sliderWrapper.find('.to_remove').remove()
             settings.afterMove()
             settings.afterRight()
         )

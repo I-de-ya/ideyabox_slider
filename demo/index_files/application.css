@@ -1,0 +1,63 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+
+
+
+ */
+
+ body {
+   font:100% 'Verdana'; 
+ }
+.image_wrapper {
+  position: relative;
+  top: 2.0em;
+  width: 100%;
+  height: 300px;
+  margin: 0 auto;
+
+}
+.image_wrapper li {
+  width: 300px;
+}
+.image_wrapper li img {
+  width: 100%;
+}
+ol li {
+  list-style-type: decimal;
+}
+.ideyabox_prev, .ideyabox_next {
+  text-decoration: none;
+  color: #555;
+  display: inline-block;
+  padding: 0.5em 2%;
+  border:1px solid #555;
+  margin: 1em 10px 0 0;
+  -webkit-border-radius: 5px;
+          border-radius: 5px;
+}
+span {
+  display: block;
+  margin-left: 20px;
+}
+.code_wrapper {
+  margin-top: 1em;
+  display: inline-block;
+  border: 1px solid #555;
+  padding: 0.5em 1%;
+  background: #EEE;
+  color: #000;
+}
+.image_wrapper_one {
+  width: 90%;
+  margin: 0 auto;
+}
+.image_wrapper_na li{
+  margin-right: 10px;
+}

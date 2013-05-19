@@ -1,0 +1,31 @@
+/* line 1, ../../app/assets/stylesheets/jquery.ideyabox_slider.scss */
+.ideyabox_slider {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+/* line 6, ../../app/assets/stylesheets/jquery.ideyabox_slider.scss */
+.ideyabox_slider ul {
+  width: 99999px;
+  position: relative;
+  top: 0;
+  left: 0;
+  padding: 0;
+  margin: 0;
+}
+/* line 14, ../../app/assets/stylesheets/jquery.ideyabox_slider.scss */
+.ideyabox_slider li {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  float: left;
+}
+/* line 19, ../../app/assets/stylesheets/jquery.ideyabox_slider.scss */
+.ideyabox_slider li img {
+  max-width: 100%;
+}
+/* line 23, ../../app/assets/stylesheets/jquery.ideyabox_slider.scss */
+.ideyabox_slider .clear {
+  clear: both;
+}
