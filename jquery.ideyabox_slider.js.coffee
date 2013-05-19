@@ -77,6 +77,7 @@ $.fn.extend
     # check if all items visible
     allVisible = ->
       sliderWrapperWidth = $sliderWrapper.width()
+      $items = $sliderWrapper.find('li')
       if settings.automargin
         itemWidth = $firstItem.width()
         visibleItemsAmount = Math.floor(sliderWrapperWidth/itemWidth)
