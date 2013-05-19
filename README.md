@@ -8,6 +8,7 @@ You need to install CoffeeScript and SASS to use this plugin. If you want to wri
 
 ### Responsive slider. 
 Margins are calculated automatically, but you must set width of items. They should be equal each other.
+
     $(selector).ideyaboxSlider
       easing: 'easeOutCirc'
       speed: 'slow'
