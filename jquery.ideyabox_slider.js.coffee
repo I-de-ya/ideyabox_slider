@@ -46,7 +46,7 @@ $.fn.extend
     loadAndResize = ->
       setItemsMargins() if settings.automargin
       showOrHideButtons()
-      oneItem()
+      oneItem() if settings.oneItem
 
     oneItem = ->
       sliderWrapperWidth = $('.ideyabox_slider').width()
@@ -85,7 +85,7 @@ $.fn.extend
         itemsWidth = 0
         $items.each ->
           itemsWidth += $(@).width() + parseInt($(@).css('margin-right'))
-        sliderWrapperWidth >= itemsWidth
+        sliderWrapperWidth >= itemsWidth - parseInt($items.last().css('margin-right'))
 
     # next and prev buttons callbacks
     navigation =
