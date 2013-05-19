@@ -1,13 +1,12 @@
-# Ideyabox
+# IdeyaBox Slider
 
-## IdeyaBox Slider
 ## Installation
 
-You need to install CoffeeScript and SASS to use this plugin. If you want to write this using native JavaSript I'll be happy.
+You need to install CoffeeScript and SASS to use this plugin. If you want to write this using native JavaSript I'll grateful to you.
 ## Usage
 
 ### Responsive slider. 
-Margins are calculated automatically, but you must set width of items. They should be equal each other.
+Margins are calculated automatically, but you must set width of items. They should be equal to each other.
 
     $(selector).ideyaboxSlider
       easing: 'easeOutCirc'
