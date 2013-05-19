@@ -5,7 +5,11 @@ $.fn.extend
     settings =
       speed: 'normal'
       easing: 'linear'
+      automargin: true
       itemWidth: ''
+      afterMove: ->
+      afterLeft: ->
+      afterRight: ->
 
     settings = $.extend settings, options    
 
@@ -34,14 +38,17 @@ $.fn.extend
       # set margins
       $(window).resize ->
         setItemsWidth()
-        setItemsMargins()
+        setItemsMargins() if settings.automargin
         showOrHideButtons()
       setItemsWidth()
-      setItemsMargins()
+      setItemsMargins() if settings.automargin
       showOrHideButtons()
+      $('li').find('img').load ->
+        showOrHideButtons()
 
     # hide next and prev buttons if all visible
     showOrHideButtons = ->
+
       if allVisible()
         $prev_button.hide()
         $next_button.hide()
@@ -69,29 +76,60 @@ $.fn.extend
     # check if all items visible
     allVisible = ->
       sliderWrapperWidth = $sliderWrapper.width()
-      itemWidth = $firstItem.width()
-      visibleItemsAmount = Math.floor(sliderWrapperWidth/itemWidth)
-      visibleItemsAmount >= itemsAmount
+      if settings.automargin
+        itemWidth = $firstItem.width()
+        visibleItemsAmount = Math.floor(sliderWrapperWidth/itemWidth)
+        visibleItemsAmount >= itemsAmount
+      else
+        itemsWidth = 0
+        $items.each ->
+          itemsWidth += $(@).width() + parseInt($(@).css('margin-right'))
+        sliderWrapperWidth >= itemsWidth
 
     # next and prev buttons callbacks
     navigation =
       toLeft : ->
         $firstItem = $sliderWrapper.find('li').first()
+
+        unless settings.automargin
+          $('.to_remove').remove()
+          clone = $firstItem.clone(true)
+          clone.appendTo($mainList)
+          $firstItem.addClass('to_remove') 
+
         itemWidth = $firstItem.width()
         itemMargin = parseInt($firstItem.css('margin-right'))
 
         $mainList.animate({'left': "-#{itemWidth+itemMargin}px"}, settings.speed, settings.easing, ->
-          $firstItem.appendTo($mainList)
+          if settings.automargin
+            $firstItem.appendTo($mainList)
+          else
+            $('.to_remove').remove()
           $mainList.stop(true, true).css('left', '0')
+          settings.afterMove()
+          settings.afterLeft()
         )
+
       toRight : ->
         $lastItem = $sliderWrapper.find('li').last()
         itemWidth = $lastItem.width()
         itemMargin = parseInt($lastItem.css('margin-right'))
-
-        $lastItem.prependTo($mainList)
+        if settings.automargin
+          $lastItem.prependTo($mainList)
+        else
+          $('.to_remove').remove()
+          itemClone = $lastItem.clone(true)
+          itemClone.prependTo($mainList)
+          $lastItem.addClass('to_remove')
+        
         $mainList.stop(true, true).css('left', "-#{itemWidth+itemMargin}px")
-        $mainList.animate({'left': "0"}, settings.speed, settings.easing)
+        $mainList.animate({'left': "0"}, settings.speed, settings.easing, 
+          ->
+            unless settings.automargin
+              $('.to_remove').remove()
+            settings.afterMove()
+            settings.afterRight()
+        )
 
     init()
 
