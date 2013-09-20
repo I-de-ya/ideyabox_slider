@@ -5,7 +5,7 @@
 
   $.fn.extend({
     ideyaboxSlider: function(options) {
-      var $firstItem, $items, $mainList, $next_button, $prev_button, $sliderWrapper, allVisible, init, itemsAmount, loadAndResize, navigation, oneItem, setItemsMargins, settings, showOrHideButtons;
+      var $firstItem, $items, $mainList, $next_button, $prev_button, $sliderWrapper, allVisible, countItemsMargins, init, itemsAmount, loadAndResize, navigation, oneItem, setItemsMargins, settings, showOrHideButtons;
       settings = {
         speed: 'normal',
         easing: 'linear',
@@ -71,7 +71,7 @@
           return $next_button.show();
         }
       };
-      setItemsMargins = function() {
+      countItemsMargins = function() {
         var itemMargin, itemWidth, sliderWrapperWidth, visibleItemsAmount;
         sliderWrapperWidth = $sliderWrapper.width();
         itemWidth = $firstItem.width();
@@ -81,6 +81,11 @@
           itemMargin = sliderWrapperWidth - itemWidth;
         }
         return $items.css('margin-right', "" + itemMargin + "px");
+      };
+      setItemsMargins = function() {
+        var margins;
+        margins = countItemsMargins();
+        return $items.css('margin-right', "" + margins + "px");
       };
       allVisible = function() {
         var itemWidth, itemsWidth, sliderWrapperWidth, visibleItemsAmount;

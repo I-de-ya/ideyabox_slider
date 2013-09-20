@@ -71,9 +71,7 @@ $.fn.extend
         @items.css('margin-right', "#{margins}px")
 
       paddingsAndBordersWidth: (item) ->
-        padding = parseInt(item.css('padding-left'),10) + parseInt(item.css('padding-right'),10)
-        border = parseInt(item.css('border-left-width'),10) + parseInt(item.css('border-right-width'),10)
-        padding + border
+        item.outerWidth() - item.width()
 
       oneItem: ->
         sliderWrapperWidth = @sliderWrapper.width()

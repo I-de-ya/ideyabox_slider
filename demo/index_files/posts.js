@@ -38,11 +38,18 @@
         return parseInt($(this).text()) + 1;
       });
     };
-    return nextClickCallback = function() {
+    nextClickCallback = function() {
       return $('.next_click_number b').text(function() {
         return parseInt($(this).text()) + 1;
       });
     };
+    $('.image_wrapper_html').ideyaboxSlider({
+      easing: 'easeOutCubic'
+    });
+    return $('.image_wrapper_html_one').ideyaboxSlider({
+      easing: 'easeOutCubic',
+      oneItem: true
+    });
   });
 
 }).call(this);
