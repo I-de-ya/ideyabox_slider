@@ -27,3 +27,12 @@ Margins are calculated automatically, but you must set width of items. They shou
       afterMove: -> moveCallback()
       afterLeft: -> nextClickCallback()
       afterRight: -> prevClickCallback()
+### Html blocks as responsive slider
+    $(selector4).ideyaboxSlider
+      easing: 'easeOutCubic'
+      # width of 'li' is required
+### One html item on page responsive slider
+    $(selector4).ideyaboxSlider
+      easing: 'easeOutCubic'
+      oneItem: true
+      # width of 'li' is required
