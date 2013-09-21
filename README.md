@@ -19,11 +19,13 @@ Margins are calculated automatically, but you must set width of items. They shou
       speed: 'normal'
       automargin: false
 
-### One item on page with 3 callbacks.
+### Autoplaying slider, one item on page with 3 callbacks.
     $(selector3).ideyaboxSlider
       easing: 'easeOutCubic'
       speed: 'slow'
       oneItem: true
+      play: true
+      interval: 3000
       afterMove: -> moveCallback()
       afterLeft: -> nextClickCallback()
       afterRight: -> prevClickCallback()
