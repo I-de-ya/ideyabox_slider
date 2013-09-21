@@ -1,7 +1,7 @@
 (function() {
 
   $(function() {
-    var moveCallback, nextClickCallback, prevClickCallback;
+    var beforeMoveCallback, beforeNextClickCallback, beforePrevClickCallback, moveCallback, nextClickCallback, prevClickCallback;
     $('body').append('<ol />');
     $('body').append('<div class="counter" />');
     $('.image_wrapper').ideyaboxSlider({
@@ -18,6 +18,8 @@
       easing: 'easeOutCubic',
       speed: 'slow',
       oneItem: true,
+      play: true,
+      interval: 3000,
       afterMove: function() {
         return moveCallback();
       },
@@ -26,6 +28,15 @@
       },
       afterRight: function() {
         return prevClickCallback();
+      },
+      beforeMove: function() {
+        return beforeMoveCallback();
+      },
+      beforeLeft: function() {
+        return beforeNextClickCallback();
+      },
+      beforeRight: function() {
+        return beforePrevClickCallback();
       }
     });
     moveCallback = function() {
@@ -40,6 +51,21 @@
     };
     nextClickCallback = function() {
       return $('.next_click_number b').text(function() {
+        return parseInt($(this).text()) + 1;
+      });
+    };
+    beforeMoveCallback = function() {
+      return $('.before_click_number b').text(function() {
+        return parseInt($(this).text()) + 1;
+      });
+    };
+    beforeNextClickCallback = function() {
+      return $('.before_prev_click_number b').text(function() {
+        return parseInt($(this).text()) + 1;
+      });
+    };
+    beforePrevClickCallback = function() {
+      return $('.before_next_click_number b').text(function() {
         return parseInt($(this).text()) + 1;
       });
     };

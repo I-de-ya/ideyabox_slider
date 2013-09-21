@@ -13,7 +13,10 @@
         oneItem: false,
         afterMove: function() {},
         afterLeft: function() {},
-        afterRight: function() {}
+        afterRight: function() {},
+        beforeMove: function() {},
+        beforeRight: function() {},
+        beforeLeft: function() {}
       };
       settings = $.extend(settings, options);
       if (settings.oneItem) {
@@ -114,6 +117,8 @@
           }
           itemWidth = $firstItem.width();
           itemMargin = parseInt($firstItem.css('margin-right'));
+          settings.beforeMove();
+          settings.beforeLeft();
           return $mainList.animate({
             'left': "-" + (itemWidth + itemMargin) + "px"
           }, settings.speed, settings.easing, function() {
@@ -132,6 +137,8 @@
           $lastItem = $sliderWrapper.find('li').last();
           itemWidth = $lastItem.width();
           itemMargin = parseInt($lastItem.css('margin-right'));
+          settings.beforeMove();
+          settings.beforeRight();
           if (settings.automargin) {
             $lastItem.prependTo($mainList);
           } else {

@@ -7,9 +7,14 @@ $.fn.extend
       easing: 'linear'
       automargin: true
       oneItem: false
+      play: false
+      interval: 3000
       afterMove: ->
       afterLeft: ->
       afterRight: ->
+      beforeMove: ->
+      beforeRight: ->
+      beforeLeft: ->
 
     settings = $.extend settings, options   
     settings.automargin = false if settings.oneItem
@@ -30,6 +35,18 @@ $.fn.extend
 
         @sliderWrapper.find('li img').load =>
           @.showOrHideButtons()
+        if @settings.play
+          @.playSlider()
+
+      addMainElements: ->
+        @sliderWrapper = @mainList.wrap("<div class='ideyabox_slider' />").parent()
+        @mainList.after("<div class='clear'/>")
+        @items = @sliderWrapper.find('li')
+        @firstItem = @items.first()
+        @itemsAmount = @items.length
+        @prev_button = $("<a href='#' class='ideyabox_prev'>prev</a>").appendTo(@sliderWrapper)
+        @stop_button = $("<a href='#' class='ideyabox_stop'>stop/start</a>").appendTo(@sliderWrapper) if @settings.play
+        @next_button = $("<a href='#' class='ideyabox_next'>next</a>").appendTo(@sliderWrapper)
 
       setCallbacks: ->
         @sliderWrapper.on 'click', '.ideyabox_next', (e) =>
@@ -40,19 +57,25 @@ $.fn.extend
           e.preventDefault()
           @.toRight() unless @.allVisible()
 
-      addMainElements: ->
-        @sliderWrapper = @mainList.wrap("<div class='ideyabox_slider' />").parent()
-        @mainList.after("<div class='clear'/>")
-        @items = @sliderWrapper.find('li')
-        @firstItem = @items.first()
-        @itemsAmount = @items.length
-        @prev_button = $("<a href='#' class='ideyabox_prev'>prev</a>").appendTo(@sliderWrapper)
-        @next_button = $("<a href='#' class='ideyabox_next'>next</a>").appendTo(@sliderWrapper)
+        @sliderWrapper.on 'click', '.ideyabox_stop', (e) =>
+          e.preventDefault()
+          @.toggleStopStart(e.target)
+
+        @sliderWrapper.on 'click', '.ideyabox_start', (e) =>
+          e.preventDefault()
+          @.toggleStopStart(e.target)
 
       loadAndResize: ->
         @.setItemsMargins() if @settings.automargin
         @.showOrHideButtons()
         @.oneItem() if @settings.oneItem
+
+      toggleStopStart: (button) ->
+        if $(button).hasClass('ideyabox_stop')
+          clearInterval(@playingSlider)
+        else
+          @.playSlider()
+        $(button).toggleClass('ideyabox_start').toggleClass('ideyabox_stop')
 
       # count items margins
       countItemsMargins: ->
@@ -74,9 +97,9 @@ $.fn.extend
         item.outerWidth() - item.width()
 
       oneItem: ->
-        sliderWrapperWidth = @sliderWrapper.width()
         firstItem = @sliderWrapper.find('li').first()
-        @sliderWrapper.find('li').width(sliderWrapperWidth - @.paddingsAndBordersWidth(firstItem))
+        newItemWidth = @sliderWrapper.width() - @.paddingsAndBordersWidth(firstItem)
+        @sliderWrapper.find('li').width(newItemWidth)
 
       # hide next and prev buttons if all visible
       showOrHideButtons: ->
@@ -102,6 +125,11 @@ $.fn.extend
             itemsWidth += $(element).outerWidth(true)
           sliderWrapperWidth >= itemsWidth - parseInt(@items.last().css('margin-right'))
 
+      playSlider: ->
+        @playingSlider = setInterval =>
+          @.toLeft()
+        , @settings.interval
+
       toLeft: ->
         firstItem = @sliderWrapper.find('li').first()
 
@@ -113,8 +141,10 @@ $.fn.extend
 
         itemFullWidth = firstItem.outerWidth(true)
 
+        @settings.beforeMove()
+        @settings.beforeLeft()
         @mainList.animate({'left': "-#{itemFullWidth}px"}, @settings.speed, @settings.easing, =>
-          if settings.automargin
+          if @settings.automargin
             firstItem.appendTo(@mainList)
           else
             @sliderWrapper.find('.to_remove').remove()
@@ -126,6 +156,9 @@ $.fn.extend
       toRight: ->
         lastItem = @sliderWrapper.find('li').last()
         itemFullWidth = lastItem.outerWidth(true)
+
+        @settings.beforeMove()
+        @settings.beforeRight()
 
         if @settings.automargin
           lastItem.prependTo(@mainList)
@@ -144,4 +177,5 @@ $.fn.extend
         )
 
     slider = new IdeyaboxSlider(@, settings)
+
     slider.init()

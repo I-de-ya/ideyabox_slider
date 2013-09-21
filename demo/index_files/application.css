@@ -43,7 +43,7 @@ ol li {
 }
 
 /* line 37, ../../app/assets/stylesheets/application.scss */
-.ideyabox_prev, .ideyabox_next {
+.ideyabox_prev, .ideyabox_next, .ideyabox_stop, .ideyabox_start {
   text-decoration: none;
   color: #555;
   display: inline-block;
